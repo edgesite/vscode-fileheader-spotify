@@ -6,11 +6,12 @@ This extension allow you to insert timestamp, copyright or any information to yo
 	 * Created on Sun Aug 07 2016 14:6:41
 	 *
 	 * Copyright (c) 2016 - Your Company
+	 * @bgm: For River (From "To The Moon") - Michael Tai
 	 */
 
 ## Features
 
-- insert defined parameter like `date`, `time`, `datetime`, `year`, `company`
+- insert defined parameter like `date`, `time`, `datetime`, `year`, `company`, `bgm`
 - insert your own parameter and template
 - define multiple templates
 
@@ -46,7 +47,7 @@ This is default configuration
 		"*":[
 			"${commentbegin}",
 			"${commentprefix} Created on ${date}",
-			**"${commentprefix} @bgm: ${bgm}",**
+			"${commentprefix} @bgm: ${bgm}",
 			"${commentprefix} Copyright (c) ${year} ${company}",
 			"${commentend}"
 		]
@@ -126,10 +127,18 @@ You can use parameters below in your template
 - `datetime24h` : print current date + time in 24 hour format
 - `company` : print "Your Company"
 - `year`: print current year
+- `bgm`: print "Song name - Artist name"
+- `bgm:song` print "Song name"
+- `bgm:artist` print "Artist name"
+- `bgm:album` print "Album name"
+- `bgm:player` print "Player name"
 
 
 
 ## Release Notes
+
+### 0.0.4
+- add bgm parameters
 
 ### 0.0.3
 - fixing "unknown configuration setting" message in Settings
