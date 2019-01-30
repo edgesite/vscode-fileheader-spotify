@@ -46,7 +46,7 @@ This is default configuration
 		"*":[
 			"${commentbegin}",
 			"${commentprefix} Created on ${date}",
-			"${commentprefix}",
+			**"${commentprefix} @bgm: ${bgm}",**
 			"${commentprefix} Copyright (c) ${year} ${company}",
 			"${commentend}"
 		]

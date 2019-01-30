@@ -16,31 +16,34 @@
     ],
     "main": "./extension",
     "contributes": {
-        "commands": [{
-            "command": "extension.insertFileHeaderComment",
-            "title": "FileHeaderComment: Insert Default Template at Cursor"
-        },{
-            "command": "extension.insertFileHeaderCommentOther",
-            "title": "FileHeaderComment: Select from Available Templates"
-        }],
-            "configuration": {
-                "type": "object",
-                "title": "FileHeaderComment Configuration",
-                "properties": {
-                    "fileHeaderComment.parameter": {
-                        "type": "object",
-                        "default": {
-                            "*":{}
-                        },
-                        "description": "Configure parameter/variable used in comment"
+        "commands": [
+            {
+                "command": "extension.insertFileHeaderComment",
+                "title": "FileHeaderComment: Insert Default Template at Cursor"
+            },
+            {
+                "command": "extension.insertFileHeaderCommentOther",
+                "title": "FileHeaderComment: Select from Available Templates"
+            }
+        ],
+        "configuration": {
+            "type": "object",
+            "title": "FileHeaderComment Configuration",
+            "properties": {
+                "fileHeaderComment.parameter": {
+                    "type": "object",
+                    "default": {
+                        "*": {}
                     },
-                    "fileHeaderComment.template": {
-                        "type": "object",
-                        "default": {},
-                        "description": "Define custom template"
-                    }
+                    "description": "Configure parameter/variable used in comment"
+                },
+                "fileHeaderComment.template": {
+                    "type": "object",
+                    "default": {},
+                    "description": "Define custom template"
                 }
             }
+        }
     },
     "scripts": {
         "postinstall": "node ./node_modules/vscode/bin/install"
@@ -55,5 +58,8 @@
     "bugs": {
         "url": "https://github.com/doi/fileheadercomment/issues"
     },
-    "license": "SEE LICENSE IN LICENSE.md"
+    "license": "SEE LICENSE IN LICENSE.md",
+    "dependencies": {
+        "spotify-node-applescript": "^1.1.1"
+    }
 }

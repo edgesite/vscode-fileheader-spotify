@@ -20,8 +20,9 @@
  */
 
 var vscode = require('vscode');
+const filters = require('./filters');
 
-function insertFileHeaderComment(picked_template){
+async function insertFileHeaderComment(picked_template){
     var workspace = vscode.workspace,
         editor = vscode.window.activeTextEditor,
         root = workspace.rootPath,
@@ -154,11 +155,52 @@ function insertFileHeaderComment(picked_template){
         s_template = s_template.replace(regexp, replace_with);
     }
 
+    const result = {};
+    const promisesMap = matchall(/\${([^}]+)/g, s_template)
+        .reduce((solved, kw) => {
+            let pos = kw.indexOf(':')
+            if (pos > 0) {
+                kw = kw.substring(0, pos-1);
+            }
+            if (!solved[kw] && filters[kw]) {
+                solved[kw] = filters[kw]()
+                    .then(r => result[kw] = r)
+                    .catch(() => {});
+            }
+            return solved;
+        }, {});
+    try {
+        await Promise.all(Object.keys(promisesMap).map(k => promisesMap[k]));
+    } catch {
+    }
+    Object.keys(result).map(k => {
+        const val = result[k];
+        if (typeof val !== 'object') return;
+        Object.keys(val).filter(k => k.startsWith(k)).forEach(k => {
+            result[k] = val[k];
+        })
+    })
+    Object.keys(result).forEach(k => {
+        s_template = s_template.replace(new RegExp('\\${'+k+'}', 'g'), result[k]);
+    });
+
     //insert header comment at cursor
     editor.edit(function(edit){
         edit.insert(editor.selection.active, s_template+"\n");
     });
 }
+
+function matchall(regExp, str) {
+    const matches = [];
+    while (true) {
+        const match = regExp.exec(str);
+        if (match === null) break;
+        // Add capture of group 1 to `matches`
+        matches.push(match[1]);
+    }
+    return matches;
+}
+
 exports.insertFileHeaderComment = insertFileHeaderComment;
 function insertFileHeaderCommentOther(){
     var workspace = vscode.workspace,
